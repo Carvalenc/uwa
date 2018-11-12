@@ -26,7 +26,9 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 # Introducción
 
-En este capitulo trataremos los temas de sintaxis y estructuras en R.
+En este tutorial trataremos los temas de introducción a R y su aplicación en epidemiología, sintaxis y estructuras básicas.
+
+__*Qué es R*__ explica qué es y cuáles son las principales aplicaciones para epidemiología. 
 
 
 __*Estructuras*__ se refiere al tipo de elementos que podemos encontrar en R: vectores, matrices,  dataframes, funciones, entre otros. 
@@ -40,6 +42,7 @@ __*Ambientes*__ se refiere a los diferentes ambientes que encontramos en R y que
 ## Qué es R?
 
 R es un software libre que permite realizar diversas tareas relacionadas con la ciencia de datos, las cuales incluyen entre otras:
+
 - Manejo y organización de datos
 
 - Análisis estadístico
@@ -72,7 +75,7 @@ Hay  una lista creciente de razones para usar R, listaré a continuación las cu
 3. *Teconología de punta*:  el número y calidad de paquetes de análisis estadístico y epidemiológico en varios lenguajes de programación crece todos los días, y así mismo nos vemos en la necesidad imperiosa de estar al día en la tecnología mas relevante para la epidemiología y análisis en salud. _R_ permite interacción con múltiples lenguajes de programación y por lo tanto es una primera puerta a muchas posibilidades y exploración de varias tecnologías de análisis.
 
 
-4. *Reproducibilidad* la transparencia en el análisis de datos es de creciente importancia en nuestra área. La posibilidad de que los resultados que obtenemos sean tan claros que oros investigadores puedan facilmente reproducirlos y mejorarlos es un aspecto clave para el avance de la epidemiología.
+4. *Reproducibilidad* R permite darle transparencia al análisis de datos y los resultados que obtenemos para que así otros investigadores puedan facilmente reproducirlos y mejorarlos.
 
 
 
@@ -83,6 +86,7 @@ Hay  una lista creciente de razones para usar R, listaré a continuación las cu
 En mi experiencia personal, las características más importantes para aprender un lenguaje de programación sin caer en la frustración son: *dedicación* y *atención a los detalles*. La fluencia llegará con la práctica y el tiempo. 
 
 Aunque no existen pre-requisitos como tal, algunos de los conocimientos previos que ayudarán a avanzar más rápidamente en los contenidos de este curso son en su orden:
+
 
 1. Conocimientos básicos de estadística y matemática. A más conocimiento mejor! 
 
@@ -112,7 +116,7 @@ Una vez ambos estén instalados, el programa se abre desde _RStudio_ y desde all
 
 # Estructuras básicas en R
 
-Existen tres tipos básicos de estructuras en R:
+Existen dos tipos básicos de estructuras en R:
 
 - Homogéneas: vectores atómicos, matrices, arrays
 
@@ -121,9 +125,9 @@ Existen tres tipos básicos de estructuras en R:
 Veamos cada una de estas estructuras en más detalle
 
 
-## Vectores atómicos
+### Vectores atómicos
 
-Estas son las estructuras más sencillas de R y son de tres tipos:
+Estas son las estructuras más sencillas de R y son de cuatro tipos:
 
 - a. Numéricos
 
@@ -157,7 +161,7 @@ str(d)
 ```
 
 
-## Matrices
+### Matrices
 
 Las matrices corresponden a estructuras un poco mas complejas. Como características principales:
 
@@ -186,7 +190,7 @@ dim(Md)
 
 
 
-## Arrays
+### Arrays
 
 Un array es un tipo especial de matriz, solo que en lugar de solo dos dimensiones puede tener tres o más.
 
@@ -201,7 +205,7 @@ dim(arr)
 
 
 
-## Dataframes
+### Dataframes
 
 Un *dataframe* es la estructura bidimensional, similar a una matriz, pero cuyos componentes pueden ser diversos.
 
@@ -218,26 +222,14 @@ str(r$a) # $ returns an atomic vector (different structure)
 ```
 
 
-## Listas
+### Listas
 
 Un *lista* es la estructura más compleja que existe, y puede estar compuesta de todas las estructuras anteriores. Una lista permite manejar grandes cantidades de elementos y son estructuras muy útiles.
 
 ```{r}
 
-
-
-# Data frame
-r <- data.frame(a, b)
-s <- data.frame(r, c, d)
-## Note: data frames do not allow atomic vectors with different length 
-## When the length of the atomic vector is smaller than the length of the data frame, the data frame coerce the atomic vector to its length
-
-r[2] # [] returns the second component of the data frame (same structure)
-str(r$a) # $ returns an atomic vector (different structure)
-
-
 # Lists
-##Is a collection of hetereogeneus structures 
+# A list is a collection of hetereogeneus structures 
 ll <- list (a, b, Ma, Mb)
 
 ll[1] # [1] returns the first component of the list (same structure)
@@ -268,15 +260,16 @@ Las funciones se dividen en:
 
 Los componentes básicos de una función son:
 
-- _nombre:_ es el nombre que le damos a la función (ejemplo: _my.fun_)
 
-_ _input o argumento:_: es la serie de elementos que necesito modificar mediante la función.
+- __*nombre*:__ es el nombre que le damos a la función (ejemplo: _my.fun_)
 
-_ _cuerpo:_ es la serie de operaciones o modificaciones que realizo al argumento. El cuerpo puede contener un modelo de análisis por ejemplo.
+- __*input o argumento*:__ es la serie de elementos que necesito modificar mediante la función.
 
-_output:_ es el resultado de aplicar la función. Si el output es un valor o serie de valores específicos los puedo especificar mediante la función _return_.
+- __*cuerpo*:__ es la serie de operaciones o modificaciones que realizo al argumento. El cuerpo puede contener un modelo de análisis por ejemplo.
 
-_environment:_ es el ambiente que se crea dentro de la función que hace que no vaya al ambiente global. Este tema lo explicaré en más detalle abajo: 
+- __*output*:__ es el resultado de aplicar la función. Si el output es un valor o serie de valores específicos los puedo especificar mediante la función _return_.
+
+- __*environment*:__ es el ambiente que se crea dentro de la función que hace que no vaya al ambiente global. Este tema lo explicaré en más detalle abajo: 
 
 Veamos la estructura básica de una función mediante un ejemplo extremadamente sencillo para calcular el Indica de Masa Corporal a partir del peso y la talla:
 
@@ -298,7 +291,7 @@ my.fun(peso = 50, talla = 1.5)
 
 
 
-# Paquetes en R
+# Paquetes de R
 
 Un paquete de R es simplemente un conjunto de funciones organizado de tal manera que podemos utilizar estas funciones sin necesidad de hacerlas nosotros mismos. Para instalar paquetes nuevos solo necesitamos utilizar el comando _install.packages_. 
 
@@ -322,7 +315,7 @@ library(readxl)
 
 # Ambientes
 
-Cuando estamos en una sesión de R es muy importante entender el ambiente en que nos encontramos. Hay tres tipos de ambientes:
+Cuando estamos en una sesión de R es muy importante entender el ambiente en que nos encontramos. Hay varios tipos de ambientes:
 
 1. __Ambiente global__: este ambiente es el que encontramos por defecto cuando abrimos una sesión nueva en R. El ambiente incluye: funciones, vectores, matrices, daf=dataframes, y también los programas instalados y requeridos para esa sesión. 
 
@@ -352,7 +345,9 @@ environment(my.fun)
 
 # Lecturas Recomendadadas
 
+
 Algunos recursos que recomiendo son:
+
 
 - El arte de programar en R (Básico)
 
