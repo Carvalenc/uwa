@@ -1,0 +1,393 @@
+---
+title: "EpiLat Blog - Tutorial 1"
+subtitle: "Introducción a R: Instalación, sintaxis y estructuras basicas"
+author: "Zulma M. Cucunubá"
+date: "24/10/2018"
+output:
+  rmarkdown::html_document:
+    theme: spacelab
+    highlight: zenburn
+    code_folding: 
+    toc: true
+    toc_depth: 2
+classoption: landscape
+fontsize: 24pt
+
+
+---
+
+----------------------------------------------------------
+Para volver a __EpiLat Blog__ https://zmcucunuba.github.io
+----------------------------------------------------------
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+```
+# Introducción
+
+En este capitulo trataremos los temas de sintaxis y estructuras en R.
+
+
+__*Estructuras*__ se refiere al tipo de elementos que podemos encontrar en R: vectores, matrices,  dataframes, funciones, entre otros. 
+
+__*Sintaxis*__ se refiere a las reglas generales de cómo escribir comandos, condicionales, loops, funciones, entre otros. 
+
+__*Ambientes*__ se refiere a los diferentes ambientes que encontramos en R y que permite que ciertas funciones actúen o no en algunos de ellos.  
+
+
+
+## Qué es R?
+
+R es un software libre que permite realizar diversas tareas relacionadas con la ciencia de datos, las cuales incluyen entre otras:
+- Manejo y organización de datos
+
+- Análisis estadístico
+
+- Modelización de datos
+
+- Reportes automatizados
+
+- Páginas Web
+
+- Visualización estática
+
+- Visualización dinámica para plataformas interactivas de visualización como ShinyApp
+
+- Interacción con otros lenguajes de programación (SQL, Bash, Phyton, C++, Stan, entre otros)
+
+- Programación en equipo 
+
+En resumen, los usos de R son diversos y crecientes en la medida en que se trata de un software de programación libre donde cualquier persona puede contribuir construyendo nuevos usos los cuales son de acceso libre.
+
+
+## Porqué usar R en Epidemiología
+
+Hay  una lista creciente de razones para usar R, listaré a continuación las cuatro razones que personalmente considero son las mas importantes y que están ínter-conectadas:
+
+1. *Acceso libre*: La disponibilidad de datos en fuentes de acceso libre es creciente. Igualmente la disponibilidad de datos en general, lo cual hace que incrementalmente vamos a requerir herramientas, habilidades que de forma rutinaria nos permiten ingreso y manipulación de datos de múltiples fuentes de información.
+
+2. *Automatización*: R permite un flujo de trabajo adecuado para la implementación de rutinas de analistas, las cuales una vez estandarizadas pueden ser usadas para análisis repetitivos (rutinarios) o fácilmente adaptados para otras situaciones.
+
+3. *Teconología de punta*:  el número y calidad de paquetes de análisis estadístico y epidemiológico en varios lenguajes de programación crece todos los días, y así mismo nos vemos en la necesidad imperiosa de estar al día en la tecnología mas relevante para la epidemiología y análisis en salud. _R_ permite interacción con múltiples lenguajes de programación y por lo tanto es una primera puerta a muchas posibilidades y exploración de varias tecnologías de análisis.
+
+
+4. *Reproducibilidad* la transparencia en el análisis de datos es de creciente importancia en nuestra área. La posibilidad de que los resultados que obtenemos sean tan claros que oros investigadores puedan facilmente reproducirlos y mejorarlos es un aspecto clave para el avance de la epidemiología.
+
+
+
+
+
+## Pre-requisitos para este curso
+
+En mi experiencia personal, las características más importantes para aprender un lenguaje de programación sin caer en la frustración son: *dedicación* y *atención a los detalles*. La fluencia llegará con la práctica y el tiempo. 
+
+Aunque no existen pre-requisitos como tal, algunos de los conocimientos previos que ayudarán a avanzar más rápidamente en los contenidos de este curso son en su orden:
+
+1. Conocimientos básicos de estadística y matemática. A más conocimiento mejor! 
+
+2. Experiencia en otro lenguaje de programación
+
+3. Conocimientos previos en epidemiología
+
+4. Conocimientos en temas de salud
+
+
+
+# Instalación de R y RStudio
+
+_R_ es el el software base y _RStudio_  es una interface que se ha creado para trabajar en R de una forma más amigable e intuitiva en especial para personas que no somos programadores de base.
+
+Cada uno de estos programas deben instalarse por separado y según corresponda al computador en el cual se va a trabajar. 
+
+Para instalar _R_ hay que hacerlo desde la pagina de CRAN: 
+https://cran.r-project.org/
+
+Para instalar _RStudio_ se hace desde su página. La versión _free_ es perfectamente suficiente para trabajar en _R_: https://www.rstudio.com/products/rstudio/download/
+
+Una vez ambos estén instalados, el programa se abre desde _RStudio_ y desde allí podemos empezar a abrir una sesioón de _R_.
+
+
+
+
+# Estructuras básicas en R
+
+Existen tres tipos básicos de estructuras en R:
+
+- Homogéneas: vectores atómicos, matrices, arrays
+
+- Heterogéneas: dataframes y listas
+
+Veamos cada una de estas estructuras en más detalle
+
+
+## Vectores atómicos
+
+Estas son las estructuras más sencillas de R y son de tres tipos:
+
+- a. Numéricos
+
+- b. Lógicos
+
+- c. Caracteres
+
+- d. Integrales
+
+
+```{r}
+
+a <- c(1, 2, 3, 4)  
+
+b <- c(TRUE, FALSE, FALSE, TRUE)
+
+c <- c("A", "B", "C", "D")
+
+d <- c(1L, 2L, 3L, 4L)
+
+```
+
+
+Para evaluar qué tipo de elemento tenemos en el ambiente global podemos usar el comando *str*
+
+```{r}
+str(a)
+str(b)
+str(c)
+str(d)
+```
+
+
+## Matrices
+
+Las matrices corresponden a estructuras un poco mas complejas. Como características principales:
+
+- Una matriz está compuesta de vectores de un solo tipo
+
+- Una matriz solo tiene dos dimensiones
+
+
+```{r}
+
+Ma <-  matrix(data = a, nrow = 2, ncol = 2)
+Ma
+
+Mb <-  matrix(data = b, nrow = 4, ncol = 3)
+Mb
+
+Mc <-  matrix(data = c, nrow = 4, ncol = 4)
+Mc
+
+Md <-  matrix(data = d, nrow = 4, ncol = 5)
+Md
+
+dim(Md)
+
+```
+
+
+
+## Arrays
+
+Un array es un tipo especial de matriz, solo que en lugar de solo dos dimensiones puede tener tres o más.
+
+Así, un array de dos dimensiones es exactamente una matriz.
+
+
+```{r}
+arr <- array(data = c(a,a,a), dim = 10)
+
+dim(arr)
+```
+
+
+
+## Dataframes
+
+Un *dataframe* es la estructura bidimensional, similar a una matriz, pero cuyos componentes pueden ser diversos.
+
+```{r}
+# Data frame
+r <- data.frame(a, b)
+s <- data.frame(r, c, d)
+## Note: data frames do not allow atomic vectors with different length 
+## When the length of the atomic vector is smaller than the length of the data frame, the data frame coerce the atomic vector to its length
+
+r[2] # [] returns the second component of the data frame (same structure)
+str(r$a) # $ returns an atomic vector (different structure)
+
+```
+
+
+## Listas
+
+Un *lista* es la estructura más compleja que existe, y puede estar compuesta de todas las estructuras anteriores. Una lista permite manejar grandes cantidades de elementos y son estructuras muy útiles.
+
+```{r}
+
+
+
+# Data frame
+r <- data.frame(a, b)
+s <- data.frame(r, c, d)
+## Note: data frames do not allow atomic vectors with different length 
+## When the length of the atomic vector is smaller than the length of the data frame, the data frame coerce the atomic vector to its length
+
+r[2] # [] returns the second component of the data frame (same structure)
+str(r$a) # $ returns an atomic vector (different structure)
+
+
+# Lists
+##Is a collection of hetereogeneus structures 
+ll <- list (a, b, Ma, Mb)
+
+ll[1] # [1] returns the first component of the list (same structure)
+
+ll2 <- list (a = a, 
+             b = b,
+             c = c, 
+             r = r)
+str(ll2$a) # returns the mentioned element with the form of an atomic vector (different structure)
+str(ll2$r)
+
+```
+
+
+# Funciones
+
+Una función es una de las características más importante de la programación en R. Una función es un objeto más en _R_, el cual creamos mediante el comando _function_.
+
+Las funciones se dividen en:
+
+- Funciones base: son las funciones que están por defecto en _R_. Por ejemplo la suma _sum_, la multiplicación _*_, la mediana _median_, o incluso otras más complejas como el resumen básico de estadísticas _summary_.
+
+- Funciones en paquetes: son las funciones que vienen cuando instalamos un paquete de R el cual no es base de R.
+
+
+- Funciones propias: son las funciones que creamos a nuestro gusto para realizar algún análisis en que estemos interesados.
+
+
+Los componentes básicos de una función son:
+
+- _nombre:_ es el nombre que le damos a la función (ejemplo: _my.fun_)
+
+_ _input o argumento:_: es la serie de elementos que necesito modificar mediante la función.
+
+_ _cuerpo:_ es la serie de operaciones o modificaciones que realizo al argumento. El cuerpo puede contener un modelo de análisis por ejemplo.
+
+_output:_ es el resultado de aplicar la función. Si el output es un valor o serie de valores específicos los puedo especificar mediante la función _return_.
+
+_environment:_ es el ambiente que se crea dentro de la función que hace que no vaya al ambiente global. Este tema lo explicaré en más detalle abajo: 
+
+Veamos la estructura básica de una función mediante un ejemplo extremadamente sencillo para calcular el Indica de Masa Corporal a partir del peso y la talla:
+
+
+```{r}
+
+
+my.fun <- function(peso, talla){
+  IMC      <- peso/talla^2
+  unidades <- 'kg/m2'
+  output <- paste(round(IMC,1), unidades)
+  
+  return(output) 
+}
+
+my.fun(peso = 50, talla = 1.5)
+
+```
+
+
+
+# Paquetes en R
+
+Un paquete de R es simplemente un conjunto de funciones organizado de tal manera que podemos utilizar estas funciones sin necesidad de hacerlas nosotros mismos. Para instalar paquetes nuevos solo necesitamos utilizar el comando _install.packages_. 
+
+Veamos a manera de ejemplo coómo instalar el paquete __readxl__ el cual permite leer archivos de excel en _R_. 
+
+
+Primero podemos revisar de qué se trata el paquete en la página de CRAN: https://cran.r-project.org/web/packages/readxl/index.html.
+
+Ahora instalemos el paquete.
+
+
+
+```{r, eval=FALSE}
+install.packages('readxl')
+library(readxl)
+
+```
+
+
+
+
+# Ambientes
+
+Cuando estamos en una sesión de R es muy importante entender el ambiente en que nos encontramos. Hay tres tipos de ambientes:
+
+1. __Ambiente global__: este ambiente es el que encontramos por defecto cuando abrimos una sesión nueva en R. El ambiente incluye: funciones, vectores, matrices, daf=dataframes, y también los programas instalados y requeridos para esa sesión. 
+
+Fácilmente podemos observar en qué ambiente nos encontramos, usando el comando *environment* en la consola:
+
+```{r}
+environment()
+```
+
+En este caso el sistema nos indica que estamos en el *ambiente global* o *R_GlobalEnv*
+
+
+__. __
+
+
+
+2. __Ambiente de la función__: este ambiente solo lo podemos observar  cuando vemos la función por dentro. Veamos una función base de *R* usando la misma función *environment*
+
+```{r}
+environment(mean)
+environment(my.fun)
+
+```
+
+
+
+
+# Lecturas Recomendadadas
+
+Algunos recursos que recomiendo son:
+
+- El arte de programar en R (Básico)
+
+Este libro contiene las herramientas más importantes para programación básica en R. Es muy sencillo y creo que de hecho se puede terminar todo completo en unas pocas horas. 
+https://cran.r-project.org/doc/contrib/Santana_El_arte_de_programar_en_R.pdf
+ 
+- Estadística básica en R
+
+Este libro contiene las herramientas de estadística básica: probabilidad, distribuciones, estimación, contraste de hipótesis. Todo con ejemplos muy sencillos en R.
+https://www.uv.es/ayala/docencia/nmr/nmr13.pdf
+ 
+
+- RStudio basics (video)
+
+Este vídeo está en inglés, pero toca  temas básicos de R y RStudio (instalación, estructura de RStudio) y aspectos de sintaxis (estructuras, condicionales, loops, funciones, etc) que son ejercicios básicos de programación de forma muy didáctica. Es muy sencillo y dura 1 hora pero una persona puede pasar varias horas hasta hacer todos los ejercicios. 
+https://www.youtube.com/watch?v=fDRa82lxzaU
+ 
+ 
+- R for Data Science
+
+Este libro es en inglés, pero los ejemplos son sencillos y además ya introduce temas más de actualidad como 'tydiverse' y 'ggplot' que hoy en día los usamos todo el tiempo. 
+https://r4ds.had.co.nz/index.html
+ 
+Para personas que ya tengan previa/intermedia experiencia con R, y con el fin de que avancen, les dejo este par de libros que me han ayudado mucho en los últimos años. 
+ 
+ 
+- Efficient R Programming
+
+Este libro explica más acerca como mejorar el código, organización, flujo de trabajo, reportes y aspectos de eficiencia de la programación.  Personas que quieran hacer su tesis de maestría usando R, este libro les va a servir muchísimo. 
+https://csgillespie.github.io/efficientR/
+ 
+ 
+- Advanced R Programming
+
+Este libro es un poquito más avanzado, pero en realidad los primeros 8 capítulos son un repaso buenísimo de aspectos básicos. 
+http://adv-r.had.co.nz/
+
+

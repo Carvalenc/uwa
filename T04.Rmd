@@ -1,0 +1,356 @@
+---
+title: "Regresión Logística Binomial"
+author: "Zulma M. Cucunubá"
+date: "24/10/2018"
+output:
+  rmarkdown::html_document:
+    theme: cosmo
+    toc: true
+    toc_depth: 2
+classoption: landscape
+fontsize: 24pt
+
+
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(Amelia)   # Permite identificar missing values
+library(pscl)     # 
+library(ROCR)     # Contiene las curvas ROC
+library(corrplot) # Permite hacer correlaciones
+library(aod)      # Contiene el Wald Test
+library(tidyverse)
+library(broom)
+library(dplyr)
+
+```
+
+# Principios de la Regresión Logística Binomial
+
+En este capiítulo, traeremos a colacion nuevamente el concepto de distribucioón binomial y de distribucion de $Bernoulli$ que son fundamentales para la regresión logística.
+
+
+
+
+
+#  Supuestos de un modelo de regresion logistica
+
+1. Descenlace binario
+2. Observaciones independientes
+3. Log(Odds) tiene una funcion lineal con las variables numeéricas
+
+
+# Fomulación básica modelo logit
+
+
+## Modelo de Regresión Logística Binomial Simple
+
+En el modelo de regresioón logiística no modelamos la probabilidad del descenlace (variable $P$) sino el _odds_, es decir el logaritmo de la probabilidad de presentar el descenlace $(P)$ sobre la probabilidad de no presentarlo $(1-P)$ 
+
+$$ odds = ln\frac{P}{1-P}$$
+
+La razoón por la cual hacemos esto, es para poder volver a la froma de una ecuacion lineal del tipo $\beta_0 + \beta_1 x_1$
+
+Así,
+
+$$ln\frac{P}{1-P} = \beta_0 + \beta_1 x_1$$
+
+De esta forma, despejamos hasta obtener la formula final del modelo que predice $P$.
+
+$$\frac{P}{1-P} = e ^ {\beta_0 + \beta_1 x_1}$$
+
+$$P = \frac {e^{\beta_0 + \beta_1 x_1}} { 1- e^{\beta_0 + \beta_1 x_1}}$$
+
+$$P = \frac {1} { 1+ e^{-(\beta_0 + \beta_1 x_1)}}$$
+
+
+
+## Modelo de Regresión Logística Binomial Múltiple
+
+
+
+Para el modelo de regresion logistica simple, lo unico que hay que agregar es el resto de las potenciales variables predictoras $x_j$ con sus respectivos coeficientes $\beta_j$.
+
+Así,
+
+$$ P = \frac {1} {1 + e^ {-(\beta_0 + \beta_1 x_1 +\beta_2 x_2 +...+\beta_j x_j)}}$$
+
+
+$$ P = \frac {1} {1 + e^ {-(\beta_0 + \sum_{i=1}^{p} \beta_j x_j)}}$$
+
+
+
+# Datos
+
+```{r, read,  eval = TRUE}
+dat <- read.csv("https://stats.idre.ucla.edu/stat/data/binary.csv")
+summary(dat)
+missmap(dat, main = "Missing values vs observed")
+
+
+```
+
+La tabla de contingencia nos permite ver cuantas observaciones tenemos en cada una de las categorias evaluadas, y el comando $str$ la estructura de la base de datos
+
+```{r}
+# Tabla de contingencia de los datos
+xtabs(~admit +rank, data = dat)
+
+str(dat)
+
+```
+
+Dado que la variable dependiente $admit$ debe ser diocotómica y la variable  $rank$ corresponde no a una variable numérica sino a una variable ordinal, debemos modificarlas para que _R_ las pueda interpretar como tal.
+
+```{r}
+dat$admit <- factor(dat$admit)
+dat$rank <- factor(dat$rank)
+
+
+```
+
+
+# Formulación del Modelo en R
+
+###  Coeficientes
+```{r}
+
+model = glm(admit ~ gre + gpa + rank, family=binomial(link='logit'), data = dat)
+
+summary(model)
+
+```
+
+
+###  ODDs 
+```{r}
+
+exp(cbind(OR = coef(model), confint(model)))
+```
+
+_Interpretacion:_ Por cada unidad en GRE hay un 2% mas de odds de ser admitido. Por cada unidad de GPA un odds de 123%. Mientras que $rank$ se debe interpretar siempre en comparacion con el valor de referencia, que en este case es $rank1$. Asi, podemos interpetar que entre peor el ranking el colegio de procedencia menor es la probabilidad de ser adminido, en comparacion con el valor de referencia.
+
+# Wald Test
+
+Primero, podemos testar los valores de $rank$ en el modelo (Términos 4:6)
+```{r}
+wald.test(b = coef(model), Sigma = vcov(model), Terms = 4:6)
+```
+Una $p = 0.00011$ indica que el aporte de $rank$ al modelo es significativo.
+
+
+Tambien podemos testar los valores de $gre$ en el modelo (Términos 2)
+```{r}
+wald.test(b = coef(model), Sigma = vcov(model), Terms = 1)
+```
+
+Igualmente, una $p = 0.00047$  indica que el aporte de $gre$ es significativo 
+
+# Pruebas de bondad de ajuste para Regresión Logística
+
+1. _Ratio de Lik (Radio de Verosimilitud)_
+
+
+2. _R^2 de McFadden_
+
+
+3. _R^2 Cox & Snell_
+
+
+4. _R^2 de Nagelkerke_
+
+
+5. _Test de Hosmer & Lemeshow_
+Este ultimo, evalúa la bondad de ajuste del modelo construyendo una tabla de contingencia a la que aplica un
+contraste tipo chi‐cuadrado.
+
+```{r cars}
+
+pR2(model)
+```
+
+
+# Predictibilidad del modelo
+
+```{r}
+
+p <- predict(model)
+plot(p)
+
+pr <- prediction(p, dat$admit)
+
+prf <- performance(pr, measure = "tpr", x.measure = "fpr")
+
+plot(prf)
+
+# Area Bajo la curva
+auc <- performance(pr, measure = "auc")
+auc <- auc@y.values[[1]]
+auc
+
+```
+
+
+
+#Pruebas de especificación del modelo de regresión logística
+
+1. Linktest (Stata)
+
+```{r Linktest, echo=FALSE, eval = FALSE}
+linktest
+
+_hatsq --> cuadrado de los predictores
+_hatsq --> no debe ser estadisticamente significativo
+
+
+
+```
+
+
+# Multicolinealidad
+
+El objetivo de la colinealidad es revisar si hay correlacion entre las variables independientes, es decir dos o mas variables que producen el mismo efecto.
+
+Una forma inicial de revisar colinealidad seria hacer una correlación entre ellas
+
+```{r}
+
+cor(dat$gre, dat$gpa)
+
+
+## corrplot 
+M <- cor(dat[,2:3]) # No incluimos 'rank' porque es una variable categorica ordinal
+
+corrplot(M, method = "number")
+
+```
+
+Mejor aun, podemos revisar colinealidad mediante el test $VIF$. Este test nos permite establecer de forma mas precisa la colinealidad, cuando los valores son $>10$, sugiriendo que la variable debe ser removida del modelo. Valores $>40$ son definitivamente altamente colineales.
+
+
+```{r}
+car::vif(model)
+
+```
+
+Adicionalmente, la _tolerancia_ , referida al recipoco de VIF, $1/VIF$ deberia siempre estar en niveles mayores a $0.1$
+
+
+Si queremos obtener todo en la misma tabla:
+```{r}
+mc <- data.frame(car::vif(model))
+mc$`1/VIF` <- 1/mc$GVIF
+
+print(mc)
+```
+
+En este caso, todas las variables presentaron valores VIF al readedor de 1 y con tolerancia >10%, por lo cual concluimos que no hay colinealidad importante entre las variables predictoras.
+
+
+# Evaluación del modelo
+
+##### Supusto de linearidad del modelo 
+
+Esto solo es posible entre la funcion $logit$ y las variables cuantitativas continuas, en este caso $gre$ y $gpa$
+
+```{r}
+
+# Predict the probability (p) of admission positivity
+probabilities <- predict(model, type = "response")
+predicted.classes <- ifelse(probabilities > 0.5, "pos", "neg")
+head(predicted.classes)
+
+
+# Select only numeric predictors
+mydata <- dat %>%
+  dplyr::select_if(is.numeric) 
+
+predictors <- colnames(mydata)
+# Bind the logit and tidying the data for plot
+mydata <- mydata %>%
+  mutate(logit = log(probabilities/(1-probabilities))) %>%
+  gather(key = "predictors", value = "predictor.value", -logit)
+
+ggplot(mydata, aes(logit, predictor.value))+
+  geom_point(size = 0.5, alpha = 0.5) +
+  geom_smooth(method = "loess") + 
+  theme_bw() + 
+  facet_wrap(~predictors, scales = "free_y")
+
+
+```
+
+_Interpretación:_ ambas variables, $gpa$ y $gre$ tienen una relacion lineal con el resultado de $logit$.
+
+
+#### Residuos vs valores predichos
+```{r}
+plot(model, which = 1, id.n = 3)
+```
+
+
+#### Valores influyentes
+```{r}
+plot(model, which = 4, id.n = 3)
+```
+
+
+```{r}
+# Extract model results
+model.data <- augment(model) %>% 
+  mutate(index = 1:n()) 
+model.data %>% top_n(3, .cooksd)
+ggplot(model.data, aes(index, .std.resid)) + 
+  geom_point(aes(color = admit), alpha = .5) +
+  theme_bw()
+
+
+
+```
+
+Filtrar potenciales valores influyentes
+```{r}
+model.data %>% 
+  filter(abs(.std.resid) > 3)
+
+```
+
+# Deviance residual
+```{r}
+summary(model)
+
+```
+
+$Residuos de Pearson$ vs $numero de observaciones$
+
+```{r}
+plot(residuals(model, type="pearson"))
+
+```
+
+En este graáfico no se observan $outliers$ que halen los residultados en ninguna dirección.
+
+
+$Residuos de Pearson$ vs $linear predictor$
+
+```{r}
+plot(model$linear.predictors,residuals(model, type="pearson"))
+```
+
+#### Gráfico de apalancamiento
+
+```{r}
+plot(model, which = 5, id.n = 3)
+```
+
+
+# Bibliografía
+
+http://www.sthda.com/english/articles/39-regression-model-diagnostics/160-multicollinearity-essentials-and-vif-in-r/
+
+
+https://datascienceplus.com/perform-logistic-regression-in-r/
+
+https://stats.idre.ucla.edu/stata/webbooks/logistic/chapter3/lesson-3-logistic-regression-diagnostics/
