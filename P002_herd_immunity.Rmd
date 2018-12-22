@@ -1,0 +1,46 @@
+---
+title: "EpiLat Post: Inmunidad de rebaÃ±o"
+subtitle: ""
+author: "Zulma M. CucunubÃ¡"
+date: "12/11/2018"
+output:
+  rmarkdown::html_document:
+    theme: spacelab
+    highlight: zenburn
+    code_folding: 
+    toc: true
+    toc_depth: 2
+classoption: landscape
+fontsize: 24pt
+
+
+---
+
+----------------------------------------------------------
+Para volver a __EpiLat Blog__ https://zmcucunuba.github.io
+----------------------------------------------------------
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+```
+# IntroducciÃ³n
+
+
+La inmunidad de grupo o tambiÃ©n llamada de rebaÃ±o es probablemente el concepto mÃ¡ importante en EpidemiologÃ­a de las enfermedades infecciosas. Este concepto se refiere a la inmunidad que las personas vacunadas (natural o artificialmente) le confieren a las no vacunadas.
+
+El concepto se hizo mÃ¡s popular cuando las vacunas fueron introducidad masivamante y hoy en dÃ­a sabemos que este aplica al anÃ¡lisis de vacuans sino al anÃ¡lisis de cualqueir enfermedad infecciosa. 
+
+
+# Teorema del lÃ­mite de inmunidad (Immunity Threshold)
+
+Este teorema desarrollado por Smit (1970) nos muestra que si la inmunidad protectora frente a una infecciÃ³n (por ejemplo al aplicar una vacuna) fuer aplicada de forma aleatoria en una poblaciÃ³n cuyo contacto es aleatorio, de tal manera que en promedio cada individuo entra en contacto con _R0_ individuos, la incidencia de la infecciÃ³n declinarÃ¡ cuando la proporciÃ³n de individuos inmunes exceda en lÃ­mite de inmunidad dado por $R_o - 1/ R_0$ o $1-1/R0$ (Hine P., 2011.)
+
+
+
+
+# Referencias
+
+Hine P et al. 2011. https://doi.org/10.1093/cid/cir007
+
+

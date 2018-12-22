@@ -1,0 +1,66 @@
+---
+title: "EpiLat Post: Inmunidad & Protección de rebaño"
+subtitle: ""
+author: "Zulma M. Cucunubá"
+date: "12/11/2018"
+output:
+  rmarkdown::html_document:
+    theme: spacelab
+    highlight: zenburn
+    code_folding: 
+    toc: true
+    toc_depth: 2
+classoption: landscape
+fontsize: 24pt
+
+
+---
+
+----------------------------------------------------------
+Para volver a __EpiLat Blog__ https://zmcucunuba.github.io
+----------------------------------------------------------
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+```
+# Introducción
+
+
+La inmunidad de grupo o también llamada de rebaño es probablemente el concepto más importante en Epidemiología de las enfermedades infecciosas. Este concepto se refiere a la inmunidad que las personas vacunadas (natural o artificialmente) le confieren a las no vacunadas.
+
+El concepto se hizo más popular cuando las vacunas fueron introducidad masivamante y hoy en día sabemos que este aplica al análisis de vacunas sino al análisis de cualquier intervención poblacional (i.e. intervenciones comunitarias, profilácticas y terapéuticas) que influecien la dinamica de una enffermedad infecciosa. Así por ejemplo, las intervenciones poblacionales tales como higiene y sanidad también tienen un efecto rebaño. 
+
+
+# Teorema del límite de inmunidad (Immunity Threshold)
+
+Este teorema desarrollado por Smit (1970) nos muestra que si la inmunidad protectora frente a una infección (por ejemplo al aplicar una vacuna) fuer aplicada de forma aleatoria en una población cuyo contacto es aleatorio, de tal manera que en promedio cada individuo entra en contacto con _R0_ individuos, la incidencia de la infección declinará cuando la proporción de individuos inmunes exceda en límite de inmunidad dado por $R_o - 1/ R_0$ o $1-1/R0$ (Hine P., 2011.)
+
+
+# Implicaciones de la protección o inmunidad de rebaño para el diseño de ensayos aleatorizados
+
+Probablemente la consecuencia más importante a entender en el diseño de ensayos poblacionales de intervenciones aleatorizadas para enfermedades infecciosas es que una vez la intervención es administrada a un número sustancial de los individuos,  el riesgo de nuevas infecciones se reduce no solo en el grupo intervenido sino el no intervenido. En otras palabras, la intervención efectiva provee un efecto directo en el individuo intervenido pero también lo hace en el no intervenido. Esta es la diferencia más importante con las enfermedades no-infecciosas. Para explicar este concepto por favor ver la Figura 2. 
+
+
+
+
+
+
+
+# Protección de rebaño de las intervenciones sanitarias (agua limpia e higiene)
+
+Las interveciones sanitarias, agua limpia e higiene - WASH (Por su nombre en inglés _(Water,Sanitarion and Hygiene) _ son un buen ejemplo de la protección de grupo que confiere una intervencion comunitaria.
+
+Fuller & Eisenberg (2016) desarrollaron un modelo para entener el infacto de protección de grupo en este tipo de intervenciones. Su modelo sugiere que las intervenciones sanitarias son las que confieren la más alta protección de grupo. 
+
+Su estudio encuentra que la mayoría de ensayos aleatorizados no logran capturar el efecto de rebaño de la intervención 
+
+
+# Referencias
+
+- Hine P et al. (2011). doi.org/10.1093/cid/cir007
+
+- Fuller & Eisenberg (2016).  doi.org/10.4269/ajtmh.15-0677
+
+
+

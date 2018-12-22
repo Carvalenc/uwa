@@ -1,0 +1,42 @@
+---
+title: "EpiLat Post: ¿Qué es el núumero reproductivo básico (R0)?"
+subtitle: ""
+author: "Zulma M. Cucunubá"
+date: "12/11/2018"
+output:
+  rmarkdown::html_document:
+    theme: spacelab
+    highlight: zenburn
+    code_folding: 
+    toc: true
+    toc_depth: 2
+classoption: landscape
+fontsize: 24pt
+
+
+---
+
+----------------------------------------------------------
+Para volver a __EpiLat Blog__ https://zmcucunuba.github.io
+----------------------------------------------------------
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+```
+# Definición 
+
+
+
+
+# Cálculo básico en población enteramente susceptible
+
+
+
+
+
+# Referencias
+
+Hine P et al. 2011. https://doi.org/10.1093/cid/cir007
+
+
